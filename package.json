@@ -6,17 +6,21 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build && npx prisma generate",
+    "setup": "npm install && npm run db:up && npm run db:migrate",
+    
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "db:up": "docker-compose -f docker-compose.db.yml up -d",
     "db:down": "docker-compose -f docker-compose.db.yml down",
     "db:migrate": "npx prisma migrate dev",
     "db:studio": "npx prisma studio",
     "db:reset": "npm run db:down && npm run db:up && sleep 5 && npm run db:migrate",
+
     "start": "nest start",
     "start:dev": "nest start --watch",
+    "start:prod": "npm run build && npm run start",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",

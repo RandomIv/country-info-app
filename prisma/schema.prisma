@@ -16,8 +16,9 @@ datasource db {
 model User {
   id        String    @id @default(uuid())
   email     String    @unique
-  name      String?
+  password  String
   createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
   holidays  Holiday[]
 
   @@map("users")
@@ -30,6 +31,8 @@ model Holiday {
   countryCode String   @map("country_code")
   userId      String   @map("user_id")
   user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("holidays")
 }
