@@ -8,6 +8,11 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "db:up": "docker-compose -f docker-compose.db.yml up -d",
+    "db:down": "docker-compose -f docker-compose.db.yml down",
+    "db:migrate": "npx prisma migrate dev",
+    "db:studio": "npx prisma studio",
+    "db:reset": "npm run db:down && npm run db:up && sleep 5 && npm run db:migrate",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -25,9 +30,11 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@prisma/client": "^6.5.0",
     "axios": "^1.8.4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "prisma": "^6.5.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
