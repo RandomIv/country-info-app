@@ -26,4 +26,37 @@ export class CountryService {
     );
     return data;
   }
+  async getCountryInfo(countryCode: string) {
+    const countryResponse = await firstValueFrom(
+      this.httpService.get(
+        `${this.dateNagerApiUrl}/CountryInfo/${countryCode}`,
+      ),
+    );
+    const countryInfo = countryResponse.data;
+    const countryName = countryInfo.commonName;
+
+    const { data } = await firstValueFrom(
+      this.httpService.post(`${this.countriesNowApiUrl}/countries/population`, {
+        country: countryName,
+      }),
+    );
+    const populationData = data.data;
+
+    const flagResponse = await firstValueFrom(
+      this.httpService.post(
+        `${this.countriesNowApiUrl}/countries/flag/images`,
+        { country: countryName },
+      ),
+    );
+    const flagData = flagResponse.data.data;
+
+    return {
+      borders: countryInfo.borders.map((border) => ({
+        countryCode: border.countryCode,
+        name: border.commonName,
+      })),
+      population: populationData.populationCounts,
+      flagUrl: flagData.flag,
+    };
+  }
 }

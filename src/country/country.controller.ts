@@ -8,4 +8,8 @@ export class CountryController {
   getAvailableCountries() {
     return this.countryService.getAvailableCountries();
   }
+  @Get(':countryCode')
+  async getCountryInfo(@Param('countryCode') countryCode: string) {
+    return this.countryService.getCountryInfo(countryCode);
+  }
 }
